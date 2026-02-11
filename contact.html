@@ -164,17 +164,7 @@
 
 
 
-      <form action="https://formsubmit.co/alameenazeef123@gmail.com" method="POST" id="contact-form" class="email-form">
-
-        <!-- Web3Forms Access Key -->
-        <input type="hidden" name="access_key" value="f2148d43-7a0a-4381-90cc-4b6b5c587e24">
-
-        <!-- Redirect After Submit -->
-        <input type="hidden" name="redirect" value="https://web3forms.com/success">
-
-        <!-- Anti-Spam Honeypot -->
-        <input type="checkbox" name="botcheck" style="display:none;">
-
+      <form id="contact-form" class="email-form">
         <div class="row gy-4">
 
           <div class="col-md-6">
@@ -200,51 +190,6 @@
 
         </div>
       </form>
-
-      <script>
-        function validateForm() {
-          const name = document.getElementById("form_name").value.trim();
-          const email = document.getElementById("email_id").value.trim();
-
-          const nameRegex = /^[a-zA-Z\s]{2,30}$/;
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-          if (name == number) {
-            alert("Please enter a valid name");
-            return false;
-          }
-
-          if (!emailRegex.test(email)) {
-            alert("Please enter a valid email address.");
-            return false;
-          }
-
-          return true; // Submit the form
-        }
-      </script><!-- End Contact Form -->
-      <!--From chatgpt-->
-      <!--cript>
-  function validateForm() {
-    const name = document.getElementById("form_name").value.trim();
-    const email = document.getElementById("email_id").value.trim();
-
-    const nameRegex = /^[a-zA-Z\s]{2,30}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!nameRegex.test(name)) {
-      alert("Please enter a valid name (2-30 letters only).");
-      return false;
-    }
-
-    if (!emailRegex.test(email)) {
-      alert("Please enter a valid email address.");
-      return false;
-    }
-
-    return true; // Submit the form
-  }
-</script>
-<!--End from chatgpt-->
       </div>
 
     </section><!-- /Contact Section -->
@@ -298,8 +243,49 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <script src="assets/js/contact.js"></script>
+  <!--script src="assets/js/contact.js"></script-->
 
+<script>
+  window.onload = function () {
+    const form = document.getElementById("contact-form");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const name = document.getElementById("form_name").value.trim();
+      const email = document.getElementById("email_id").value.trim();
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (name.length < 3) {
+        alert("Name must be at least 3 characters.");
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        alert("Enter a valid email address.");
+        return;
+      }
+
+      if (message.length < 10) {
+        alert("Message must be at least 10 characters.");
+        return;
+      }
+
+      emailjs.sendForm("service_beels8f", "template_d3e5iiq", form)
+        .then(() => {
+          alert("Message sent successfully!");
+          form.reset();
+        })
+        .catch((error) => {
+          console.error("EmailJS Error:", error);
+          alert("Failed to send message. Please try again.");
+        });
+    });
+  };
+</script>
 
 </body>
 
